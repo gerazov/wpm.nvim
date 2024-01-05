@@ -53,14 +53,18 @@ end
 ---@return string
 function M.generate_line()
     local win_width = api.nvim_win_get_width(0)
-    local width_percentage = 0.85
+    local border_width = 4
     local word = M.new_word()
     table.insert(M.text, word)
     local line = word
-    while #line + #word < width_percentage * win_width do
+    while true do
         word = M.new_word()
-        table.insert(M.text, word)
+        if #line + #word >= win_width - border_width then
+            M.next_word_id = M.next_word_id - 1
+            break
+        end
         line = line .. " " .. word
+        table.insert(M.text, word)
     end
     return line .. " "
 end
@@ -70,21 +74,21 @@ end
 function M.generate_extmarks()
     util.clear_text(n_lines)
     local extm_ids = {}
-    local sentences = {}
+    local lines = {}
     for i = 1, n_lines - 1 do
-        local sentence = M.generate_line()
+        local line = M.generate_line()
         local extm_id = api.nvim_buf_set_extmark(0, ns_id, i - 1, 0, {
             virt_text = {
-                { sentence, hl.untyped_text },
+                { line, hl.untyped_text },
             },
             hl_mode = "combine",
             virt_text_win_col = 0,
         })
-        table.insert(sentences, sentence)
+        table.insert(lines, line)
         table.insert(extm_ids, extm_id)
     end
 
-    return extm_ids, sentences
+    return extm_ids, lines
 end
 
 ---additional variables used for fixing edge cases
