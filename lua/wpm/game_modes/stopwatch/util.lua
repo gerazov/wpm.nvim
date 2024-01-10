@@ -34,22 +34,16 @@ end
 
 ---@return string
 function M.new_word()
-  if opts.sentence_mode then
+  if opts.text == "sentences" then
     M.next_word_id = M.next_word_id + 1
     if M.sentence == nil or M.next_word_id == #M.sentence then
       M.sentence = M.new_sentence()
       M.next_word_id = 0
     end
     return M.sentence[M.next_word_id + 1]
+  else
+    return words[math.random(1, #words)]
   end
-  if M.next_word_id == #words then
-    M.next_word_id = 0
-  end
-  if opts.custom_text_file then
-    M.next_word_id = M.next_word_id + 1
-    return words[M.next_word_id]
-  end
-  return words[math.random(1, #words)]
 end
 
 ---@return string
@@ -57,8 +51,10 @@ function M.generate_line()
   local win_width = api.nvim_win_get_width(0)
   local border_width = 4
   local word = M.new_word()
+  vim.print(word)
   table.insert(M.text, word)
   local line = word
+  vim.print(line)
   while true do
     word = M.new_word()
     if #line + #word >= win_width - border_width then
