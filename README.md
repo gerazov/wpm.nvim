@@ -4,7 +4,15 @@ Measure your WPM within Neovim ⚡️
 
 This is based on [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) with added features.
 
+## Features 
+
+WPM supports two modes:
+- _Countdown_ : type until the time is up.
+- _Stopwatch_ : type the whole text.
+
 WPM is calculated based on the words typed in the task, taking into account mistakes and corrections made.
+
+\* [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) also has a *Rain* game mode.
 
 ## Install
 
@@ -22,15 +30,13 @@ WPM is calculated based on the words typed in the task, taking into account mist
 ```
 ## Usage
 
-WPM supports two modes (see [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) for demo videos):
-  - _Countdown_ : type until the time is up.
-  - _Stopwatch_ : type the whole text.
+- You can start the mode selection menu with `WPM` or directly the Countdown mode with `WPMCountdown`, or the Stopwatch with `WPMStopwatch`.
+- You can exit the run using `<Esc>` in normal mode. 
+- You can start again using `<C-Space>` in normal mode. 
 
-You can start the selection menu with `WPM` or directly the Countdown mode with `WPMCountdown`, or the Stopwatch with `WPMStopwatch`.
+## Languages
 
-\* [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) also has a *Rain* game mode.
-
-**Languages**: the plugin has English built in. Other languages can be added via custom `txt` files.
+The plugin has English built in. Other languages can be added via custom `txt` files.
 
 ## Recommended plugins
 
