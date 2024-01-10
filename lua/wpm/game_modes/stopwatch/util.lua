@@ -51,10 +51,8 @@ function M.generate_line()
   local win_width = api.nvim_win_get_width(0)
   local border_width = 4
   local word = M.new_word()
-  vim.print(word)
   table.insert(M.text, word)
   local line = word
-  vim.print(line)
   while true do
     word = M.new_word()
     if #line + #word >= win_width - border_width then
