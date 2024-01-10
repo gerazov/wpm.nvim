@@ -14,7 +14,7 @@ jobs:
       - name: panvimdoc
         uses: kdheepak/panvimdoc@main
         with:
-          vimdoc: speedtyper.nvim
+          vimdoc: wpm.nvim
           version: "Neovim >= 0.9.1"
           demojify: true
           treesitter: true
