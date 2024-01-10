@@ -19,6 +19,8 @@ end
 M.next_word_id = 0
 ---@type string[]
 M.sentence = nil
+---@type string[]
+M.text = {}
 
 -- used to make number of lines = window height
 local n_lines = opts.window.height
@@ -53,6 +55,7 @@ function M.generate_line()
     local win_width = api.nvim_win_get_width(0)
     local border_width = 4
     local word = M.new_word()
+    table.insert(M.text, word)
     local line = word
     while true do
         word = M.new_word()
@@ -61,6 +64,7 @@ function M.generate_line()
             break
         end
         line = line .. " " .. word
+        table.insert(M.text, word)
     end
     return line .. " "
 end

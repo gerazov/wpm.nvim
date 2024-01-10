@@ -20,6 +20,10 @@ M.next_word_id = 0
 M.num_of_chars = 0
 ---@type string[]
 M.sentence = nil
+---@type string[]
+M.text = {}
+---@type string[]
+M.lines = nil
 
 -- used to make number of lines = window height
 local n_lines = opts.window.height
@@ -54,6 +58,7 @@ function M.generate_line()
     local win_width = api.nvim_win_get_width(0)
     local border_width = 4
     local word = M.new_word()
+    table.insert(M.text, word)
     local line = word
     while true do
         word = M.new_word()
@@ -62,6 +67,7 @@ function M.generate_line()
             break
         end
         line = line .. " " .. word
+        table.insert(M.text, word)
     end
     return line .. " "
 end
@@ -125,7 +131,13 @@ function M.update_extmarks(lines, extm_ids)
                 virt_text_win_col = 0,
             })
         elseif line == n_lines - 1 then
-            -- move cursor to the beginning of the first line and generate new lines after the final space in the last line
+            -- move cursor to the beginning of the first line and generate new sentences after the final space in the last line
+            local buf_lines = api.nvim_buf_get_lines(0, 0, -1, false)
+            if M.lines == nil then
+                M.lines = buf_lines
+            else
+                vim.list_extend(M.lines, buf_lines)
+            end
             normal("gg0")
             util.clear_extmarks(extm_ids)
             for _, s in pairs(lines) do
