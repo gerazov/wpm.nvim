@@ -1,4 +1,4 @@
-*wpm.nvim.txt*                             Last change: 2024 јануари 10
+*wpm.nvim.txt*                                    Last change: 2024 January 10
 
 ==============================================================================
 Table of Contents                                 *wpm.nvim-table-of-contents*
