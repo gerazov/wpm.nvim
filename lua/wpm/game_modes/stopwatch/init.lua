@@ -13,15 +13,9 @@ local hl = config.opts.highlights
 M.timer = nil
 ---@type number
 M.total_time_sec = 0
----@type integer
-M.num_of_typos = 0
----@type integer
-M.num_of_keypresses = 0
 
 function M.start()
   -- clear data for next game
-  M.num_of_keypresses = 0
-  M.num_of_typos = 0
   M.total_time_sec = 0
   M.timer = nil
   stopwatch_util.sentence = nil
@@ -39,8 +33,6 @@ function M.start()
       else
         typo.remove_typo(typos, curr_char.typo_pos)
       end
-      M.num_of_typos = #typos
-      M.num_of_keypresses = M.num_of_keypresses + 1
       extm_ids, lines = stopwatch_util.update_extmarks(lines, extm_ids)
     end,
     desc = "Update extmarks and mark mistakes while typing.",
@@ -52,10 +44,7 @@ end
 function M.stop(ok)
   if ok then
     stats.display_stats(
-      M.num_of_keypresses,
-      M.num_of_typos,
       M.total_time_sec,
-      0,  -- text_length
       stopwatch_util.text
     )
     util.disable_modifying_buffer()

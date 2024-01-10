@@ -25,14 +25,19 @@ function M.show()
     end
 
     local opts = require("wpm.config").opts
-    if selected == "rain" then
-      opts.window.height = opts.window.width
-    end
     window.open_float(opts.window)
     game.set_game_mode(selected)
     disable()
     game.start_game()
   end)
+end
+
+function M.select_and_start(game_mode)
+  local opts = require("wpm.config").opts
+  window.open_float(opts.window)
+  game.set_game_mode(game_mode)
+  disable()
+  game.start_game()
 end
 
 return M

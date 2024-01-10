@@ -1,12 +1,9 @@
 local M = {}
-local util = require("wpm.util")
 local api = vim.api
 
 M.available_game_modes = {
   "countdown",
   "stopwatch",
-  "rain",
-  -- "code_snippets",
 }
 
 M.game_mode = ""
@@ -16,8 +13,6 @@ function M.set_game_mode(game_mode)
 end
 
 function M.start_game()
-  util.info("Selected game mode: " .. M.game_mode)
-  -- every game mode should have start method with no arguments
   api.nvim_create_autocmd("BufLeave", {
     group = api.nvim_create_augroup("wpmEarlyExit", { clear = true }),
     once = true,
@@ -31,7 +26,7 @@ function M.start_game()
   require("wpm.game_modes." .. M.game_mode).start()
 end
 
----@param ok boolean did the user force stop the game before it ended
+---@param ok boolean  -- did the user force stop the game before it ended
 function M.end_game(ok)
   require("wpm.game_modes." .. M.game_mode).stop(ok)
 end

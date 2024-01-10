@@ -9,10 +9,12 @@ local normal = vim.cmd.normal
 
 local sentences = {}
 local words = {}
-if opts.sentence_mode then
-  sentences = require("wpm.langs").get_sentences()
-else
-  words = require("wpm.langs").get_words()
+if opts.text == "sentences" then
+  sentences = require("wpm.text").get_sentences()
+elseif opts.text == "words" then
+  words = require("wpm.text").get_words()
+elseif opts.text == "custom" then
+  words = require("wpm.text").get_words()
 end
 
 ---@type integer
@@ -43,7 +45,7 @@ function M.new_word()
   if M.next_word_id == #words then
     M.next_word_id = 0
   end
-  if opts.custom_text_file and not opts.randomize then
+  if opts.custom_text_file then
     M.next_word_id = M.next_word_id + 1
     return words[M.next_word_id]
   end

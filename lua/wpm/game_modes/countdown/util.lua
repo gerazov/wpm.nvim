@@ -8,10 +8,12 @@ local normal = vim.cmd.normal
 
 local sentences = {}
 local words = {}
-if opts.sentence_mode then
-  sentences = require("wpm.langs").get_sentences()
-else
-  words = require("wpm.langs").get_words()
+if opts.text == "sentences" then
+  sentences = require("wpm.text").get_sentences()
+elseif opts.text == "words" then
+  words = require("wpm.text").get_words()
+elseif opts.text == "custom" then
+  words = require("wpm.text").get_words()
 end
 
 ---@type integer
@@ -35,22 +37,16 @@ end
 
 ---@return string
 function M.new_word()
-  if opts.sentence_mode then
+  if opts.text == "sentences" then
     M.next_word_id = M.next_word_id + 1
     if M.sentence == nil or M.next_word_id == #M.sentence then
       M.sentence = M.new_sentence()
       M.next_word_id = 0
     end
     return M.sentence[M.next_word_id + 1]
+  else
+    return words[math.random(1, #words)]
   end
-  if M.next_word_id == #words then
-    M.next_word_id = 0
-  end
-  if opts.custom_text_file and not opts.randomize then
-    M.next_word_id = M.next_word_id + 1
-    return words[M.next_word_id]
-  end
-  return words[math.random(1, #words)]
 end
 
 ---@return string
@@ -114,7 +110,7 @@ function M.update_extmarks(lines, extm_ids)
     - "CursorMovedI" is triggered for the 'next' (the one that has yet to be typed) character,
     so we need to examine 'previous' cursor positon
     - col - 1 and col - 2 is the product of the above statement and the fact that every line
-    ends with " " (see speedtyper.util.generate_sentence), there is no logical explanation,
+    ends with " " (see wpm.util.generate_sentence), there is no logical explanation,
     the problem was aligning 0-based and 1-based indexing
     ]]
   if col - 1 == #lines[line] or col - 2 == #lines[line] then
