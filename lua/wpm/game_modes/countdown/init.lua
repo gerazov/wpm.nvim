@@ -1,11 +1,11 @@
 local M = {}
 local api = vim.api
-local ns_id = api.nvim_get_namespaces()["Speedtyper"]
-local stats = require("speedtyper.stats")
-local countdown_util = require("speedtyper.game_modes.countdown.util")
-local util = require("speedtyper.util")
-local typo = require("speedtyper.typo")
-local config = require("speedtyper.config")
+local ns_id = api.nvim_get_namespaces()["wpm"]
+local stats = require("wpm.stats")
+local countdown_util = require("wpm.game_modes.countdown.util")
+local util = require("wpm.util")
+local typo = require("wpm.typo")
+local config = require("wpm.config")
 local opts = config.opts.game_modes.countdown
 local n_lines = config.opts.window.height
 local hl = config.opts.highlights
@@ -29,7 +29,7 @@ function M.start()
   local extm_ids, lines = countdown_util.generate_extmarks()
   local typos = {}
   api.nvim_create_autocmd("CursorMovedI", {
-    group = api.nvim_create_augroup("SpeedtyperCountdown", { clear = true }),
+    group = api.nvim_create_augroup("wpmCountdown", { clear = true }),
     buffer = 0,
     callback = function()
       local curr_char = typo.check_curr_char(lines)
@@ -67,7 +67,7 @@ function M.stop(ok)
     M.timer:close()
     M.timer = nil
   end
-  pcall(api.nvim_del_augroup_by_name, "SpeedtyperCountdown")
+  pcall(api.nvim_del_augroup_by_name, "wpmCountdown")
   config.restore_opts()
 end
 
@@ -81,7 +81,7 @@ function M.create_timer(time_sec)
     virt_text_pos = "right_align",
   })
   api.nvim_create_autocmd("InsertEnter", {
-    group = api.nvim_create_augroup("SpeedtyperTimer", { clear = true }),
+    group = api.nvim_create_augroup("wpmTimer", { clear = true }),
     buffer = 0,
     once = true,
     callback = function()

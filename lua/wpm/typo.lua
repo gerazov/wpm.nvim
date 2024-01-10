@@ -1,8 +1,8 @@
 local M = {}
 local api = vim.api
-local hl = require("speedtyper.config").opts.highlights
-local ns_id = api.nvim_get_namespaces()["Speedtyper"]
-local util = require("speedtyper.util")
+local hl = require("wpm.config").opts.highlights
+local ns_id = api.nvim_get_namespaces()["wpm"]
+local util = require("wpm.util")
 
 ---@param line integer
 ---@param col integer index of the char that needs to be highlighted

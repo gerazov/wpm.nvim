@@ -5,13 +5,13 @@ local api = vim.api
 ---@param msg string
 function M.error(msg)
   -- "\n" for nvim configs that don't use nvim-notify
-  vim.notify("\n" .. msg, vim.log.levels.WARN, { title = "Speedtyper" })
+  vim.notify("\n" .. msg, vim.log.levels.WARN, { title = "wpm" })
 end
 
 ---@param msg string
 function M.info(msg)
   -- "\n" for nvim configs that don't use nvim-notify
-  vim.notify("\n" .. msg, vim.log.levels.INFO, { title = "Speedtyper" })
+  vim.notify("\n" .. msg, vim.log.levels.INFO, { title = "wpm" })
 end
 
 ---@return integer
@@ -32,7 +32,7 @@ end
 ---@param extm_ids integer[]
 function M.clear_extmarks(extm_ids)
   for _, id in pairs(extm_ids) do
-    api.nvim_buf_del_extmark(0, api.nvim_get_namespaces()["Speedtyper"], id)
+    api.nvim_buf_del_extmark(0, api.nvim_get_namespaces()["wpm"], id)
   end
 end
 

@@ -1,17 +1,17 @@
 local M = {}
 local api = vim.api
-local util = require("speedtyper.util")
-local ns_id = api.nvim_get_namespaces()["Speedtyper"]
-local opts = require("speedtyper.config").opts
-local hl = require("speedtyper.config").opts.highlights
+local util = require("wpm.util")
+local ns_id = api.nvim_get_namespaces()["wpm"]
+local opts = require("wpm.config").opts
+local hl = require("wpm.config").opts.highlights
 local normal = vim.cmd.normal
 
 local sentences = {}
 local words = {}
 if opts.sentence_mode then
-  sentences = require("speedtyper.langs").get_sentences()
+  sentences = require("wpm.langs").get_sentences()
 else
-  words = require("speedtyper.langs").get_words()
+  words = require("wpm.langs").get_words()
 end
 
 ---@type integer

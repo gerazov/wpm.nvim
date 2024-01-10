@@ -1,7 +1,7 @@
 local M = {}
 local api = vim.api
-local ns_id = api.nvim_get_namespaces()["Speedtyper"]
-local opts = require("speedtyper.config").opts
+local ns_id = api.nvim_get_namespaces()["wpm"]
+local opts = require("wpm.config").opts
 
 ---@param n_keypresses integer
 ---@param n_mistakes integer

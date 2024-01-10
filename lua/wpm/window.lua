@@ -28,7 +28,7 @@ function M.open_float(opts)
     width = width,
     height = height,
     border = opts.border,
-    title = "Speedtyper",
+    title = "wpm",
     title_pos = "center",
     noautocmd = true,
   })

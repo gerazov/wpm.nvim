@@ -1,6 +1,6 @@
 local M = {}
-local util = require("speedtyper.util")
-local opts = require("speedtyper.config").opts
+local util = require("wpm.util")
+local opts = require("wpm.config").opts
 
 M.supported_words = {
   "custom", -- if custom_text option is provided
@@ -42,13 +42,13 @@ end
 ---get list of words for selected language
 ---@return string[]
 function M.get_words()
-  return require("speedtyper.langs." .. M.lang)
+  return require("wpm.langs." .. M.lang)
 end
 
 ---get list of sentences for selected language
 ---@return string[]
 function M.get_sentences()
-  return require("speedtyper.langs.sentences." .. M.lang)
+  return require("wpm.langs.sentences." .. M.lang)
 end
 
 return M

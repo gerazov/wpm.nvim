@@ -60,7 +60,7 @@ function M.override_opts(opts)
   if opts.custom_text_file then
     M.opts.language = "custom"
   end
-  require("speedtyper.langs").set_lang(M.opts.language)
+  require("wpm.langs").set_lang(M.opts.language)
   if M.opts.vim_opt.guicursor then
     vim.opt.guicursor = "i:" .. M.opts.vim_opt.guicursor
   end

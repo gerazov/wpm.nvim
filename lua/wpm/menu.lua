@@ -1,7 +1,7 @@
 local M = {}
-local game = require("speedtyper.game_modes")
-local util = require("speedtyper.util")
-local window = require("speedtyper.window")
+local game = require("wpm.game_modes")
+local util = require("wpm.util")
+local window = require("wpm.window")
 
 ---disables some things that may be distracting
 local function disable()
@@ -24,7 +24,7 @@ function M.show()
       return
     end
 
-    local opts = require("speedtyper.config").opts
+    local opts = require("wpm.config").opts
     if selected == "rain" then
       opts.window.height = opts.window.width
     end
