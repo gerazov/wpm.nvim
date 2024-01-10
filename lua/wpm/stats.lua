@@ -50,16 +50,18 @@ function M.display_stats(time_sec, text, prev_lines)
   local wpm_text = string.format("WPM: %.2f", wpm)
   local acc_text = string.format("Accuracy: %.2f%%", accuracy)
   local time_text = string.format("Time: %d seconds", time_sec)
+  local options_text = "Press <Esc> to exit, <C-Space> to restart"
   api.nvim_buf_set_lines(0, 0, 5, false, {
     wpm_text,
-    "",
     acc_text,
-    "",
     time_text,
+    "",
+    options_text,
   })
   api.nvim_buf_add_highlight(0, ns_id, "Error", 0, 0, #wpm_text)
-  api.nvim_buf_add_highlight(0, ns_id, "DiagnosticWarn", 2, 0, #acc_text)
-  api.nvim_buf_add_highlight(0, ns_id, "DiagnosticInfo", 4, 0, #time_text)
+  api.nvim_buf_add_highlight(0, ns_id, "DiagnosticWarn", 1, 0, #acc_text)
+  api.nvim_buf_add_highlight(0, ns_id, "DiagnosticInfo", 2, 0, #time_text)
+  api.nvim_buf_add_highlight(0, ns_id, "DiagnosticOk", 4, 0, #options_text)
 end
 
 return M

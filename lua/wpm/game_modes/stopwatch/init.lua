@@ -9,6 +9,7 @@ local config = require("wpm.config")
 local opts = config.opts.game_modes.stopwatch
 local n_lines = config.opts.window.height
 local hl = config.opts.highlights
+local normal = vim.cmd.normal
 
 M.timer = nil
 ---@type number
@@ -22,6 +23,7 @@ function M.start()
   stopwatch_util.text = {}
 
   local extm_ids, lines = stopwatch_util.generate_extmarks()
+  normal("gg0")
   local typos = {}
   api.nvim_create_autocmd("CursorMovedI", {
     group = api.nvim_create_augroup("wpmStopwatch", { clear = true }),
