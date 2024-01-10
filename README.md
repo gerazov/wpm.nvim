@@ -1,150 +1,80 @@
-# ⌨️ Speedtyper
+# ⌨️ WPM.nvim
 
-> Practise typing while bored.
+Measure your WPM within Neovim ⚡️
 
-## 📺 Showcase
+This is based on [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) with added features.
 
-<h4 align="center">⌛ Countdown game mode</h4>
+WPM is calculated based on the words typed in the task, taking into account mistakes and corrections made.
 
-[speedtyper_countdown_showcase.webm](https://github.com/NStefan002/speedtyper.nvim/assets/100767853/767464b2-96d6-4ea9-9486-4aa98135d0ae)
+## Install
 
-<br>
+```lua
+{
+  "gerazov/wpm.nvim",
+  lazy = true,
+  cmd = { "WPM", "WPMCountdown", "WPMStopwatch" },  -- lazy start on command
+  keys = {
+    { "<leader>ty", "<cmd>WPM<cr>", desc = "WPMCountdown" },
+  },
+  opts = {
+  }
+}
+```
+## Usage
 
-<h4 align="center">🌧️ Rain game mode</h4>
+WPM supports two modes (see [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) for demo videos):
+  - _Countdown_ : type until the time is up.
+  - _Stopwatch_ : type the whole text.
 
-https://github.com/NStefan002/speedtyper.nvim/assets/100767853/e84e05e9-d3f1-4fd1-91d9-4d31b5bef7e7
+You can start the selection menu with `WPM` or directly the Countdown mode with `WPMCountdown`, or the Stopwatch with `WPMStopwatch`.
 
-## ⚡️ Features
+\* [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) also has a *Rain* game mode.
 
-- **Different game modes:**
+**Languages**: the plugin has English built in. Other languages can be added via custom `txt` files.
 
-  - _Countdown_ :
-    - **Objective:** Type as much words as possible before the time runs out.
-    - **Customize Game Duration**
-    - **Feedback**: Receive instant updates on your words per minute (WPM) and accuracy.
-  - _Stopwatch_ :
-    - **Objective:** Type an entire page of text as fast and as accurate as possible.
-    - **Feedback**: Receive instant updates on your words per minute (WPM) and accuracy.
-  - _Rain_ :
-    - **Objective:** Words fall from the top of the screen, type them before they hit the bottom.
-    - **Choose the number of lives**
-    - **Customize rain speed**
-
-  **Coming soon:** _code snippets_: Enhance your coding speed and accuracy by typing various code snippets.
-
-- **Languages**: Currently only supports English and Serbian. There is also an option to provide a file with your prefered text.
-- **Play Offline**: No need to connect to the internet. <!-- **_Coming soon:_** Online mode with a larger variety of words. -->
-- **Distraction-Free Typing**: Temporarily disable [cmp](https://github.com/hrsh7th/nvim-cmp) to focus on the game.
-
-## ✨ Recommended
+## Recommended plugins
 
 - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 - [nvim-notify](https://github.com/rcarriga/nvim-notify)
-- patched font
 
-## 📋 Installation
-
-[lazy](https://github.com/folke/lazy.nvim):
+## Default configuration
 
 ```lua
-{
-    "NStefan002/speedtyper.nvim",
-    cmd = "Speedtyper",
-    opts = {
-    -- your config
-    }
+opts = {
+  window = {
+    height = 10, -- integer >= 5 | float in range (0, 1)
+    width = 60, -- integer | float in range (0, 1)
+    border = "rounded", -- "none" | "single" | "double" | "rounded" | "shadow" | "solid"
+  },
+  text = "sentences", -- "words" | "sentences"
+  custom_text_file = nil, -- path to custom file, overrides text
+  game_modes = { -- preferred settings for different game modes
+    -- type until time expires
+    countdown = {
+      time = 60,
+    },
+    -- type until you complete one page
+    stopwatch = {
+      hide_time = true, -- hide time while typing
+    },
+  },
+  -- specify highlight group for each component
+  highlights = {
+    untyped_text = "Comment",
+    typo = "ErrorMsg",
+    clock = "ErrorMsg",
+  },
+  -- this values will be restored to your preferred settings after the game ends
+  vim_opt = {
+    -- only applies to insert mode, while playing the game
+    guicursor = nil, -- "ver25" | "hor20" | "block" | nil means do not change
+  },
 }
 ```
 
-[packer](https://github.com/wbthomason/packer.nvim):
+## Similar projects
 
-```lua
-use({
-    "NStefan002/speedtyper.nvim",
-    config = function()
-        require("speedtyper").setup({
-            -- your config
-        })
-    end,
-})
-```
-
-## ⚙ Default configuration
-
-<details>
-<summary>Full list of options with their default values</summary>
-
-```lua
-{
-    window = {
-        height = 5, -- integer >= 5 | float in range (0, 1)
-        width = 0.55, -- integer | float in range (0, 1)
-        border = "rounded", -- "none" | "single" | "double" | "rounded" | "shadow" | "solid"
-    },
-    language = "en", -- "en" | "sr" currently only only supports English and Serbian
-    sentence_mode = false, -- if true, whole sentences will be used
-    custom_text_file = nil, -- provide a path to file that contains your custom text (if this is not nil, language option will be ignored)
-    randomize = false, -- randomize words from custom_text_file
-    final_words_typed_wpm = false, -- if set to true calculate wpm using the final words typed
-    -- if set to false WPM is estimated by dividing the number of typed characters by 5
-    game_modes = { -- prefered settings for different game modes
-        -- type until time expires
-        countdown = {
-            time = 30,
-        },
-        -- type until you complete one page
-        stopwatch = {
-            hide_time = true, -- hide time while typing
-        },
-        -- NOTE: the window height will become the same as the window width
-        rain = {
-            initial_speed = 1.5, -- words fall down by one line every x seconds
-            throttle = 7, -- increase speed every x seconds (set to -1 for constant speed)
-            lives = 3,
-        },
-    },
-    -- specify highlight group for each component
-    highlights = {
-        untyped_text = "Comment",
-        typo = "ErrorMsg",
-        clock = "ErrorMsg",
-        falling_word_typed = "DiagnosticOk",
-        falling_word = "Normal",
-        falling_word_warning1 = "WarningMsg",
-        falling_word_warning2 = "ErrorMsg",
-    },
-    -- this values will be restored to your prefered settings after the game ends
-    vim_opt = {
-        -- only applies to insert mode, while playing the game
-        guicursor = nil, -- "ver25" | "hor20" | "block" | nil means do not change
-    },
-}
-```
-
-</details>
-
-## 🧰 Commands
-
-| Command       | Description                             |
-| ------------- | --------------------------------------- |
-| `:Speedtyper` | Select the game mode and enjoy playing! |
-
-## 🤝 Contributing
-
-PRs and issues are always welcome.
-
-## ✅☑️ TODO
-
-See _[this](https://github.com/NStefan002/speedtyper.nvim/blob/main/TODO.md)_.
-
-## 🎭 Inspiration
-
-- [monkeytype](https://monkeytype.com/)
-
-## 👀 Checkout similar projects
-
-- **Neovim based:**
-  - [duckytype.nvim](https://github.com/kwakzalver/duckytype.nvim)
-- **Other:**
-  - [SpeedTyper.dev](https://www.speedtyper.dev/) Somehow I didn't know about this one until the day I made speedtyper.nvim public... My bad 😅
-  - [toipe](https://github.com/Samyak2/toipe)
+- [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim)
+- [vim-apm](https://github.com/ThePrimeagen/vim-apm)
+- [duckytype.nvim](https://github.com/kwakzalver/duckytype.nvim)
+- [jcdickinson/wpm.nvim](https://github.com/jcdickinson/wpm.nvim) - archived
