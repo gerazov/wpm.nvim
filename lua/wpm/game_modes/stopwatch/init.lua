@@ -84,10 +84,10 @@ end
 
 function M.start_stopwatch()
   local extm_id
-  if not opts.hide_time then
+  if opts.show_time then
     extm_id = api.nvim_buf_set_extmark(0, ns_id, n_lines - 1, 0, {
       virt_text = {
-        { string.format("󱑆 %.1f  ", M.total_time_sec), hl.clock },
+        { string.format("󱑆 %.0f  ", M.total_time_sec), hl.clock },
       },
       virt_text_pos = "right_align",
     })
@@ -98,10 +98,10 @@ function M.start_stopwatch()
     100,
     vim.schedule_wrap(function()
       M.total_time_sec = M.total_time_sec + 0.1
-      if not opts.hide_time then
+      if opts.show_time then
         extm_id = api.nvim_buf_set_extmark(0, ns_id, n_lines - 1, 0, {
           virt_text = {
-            { string.format("󱑆 %.1f  ", M.total_time_sec), hl.clock },
+            { string.format("󱑆 %.0f  ", M.total_time_sec), hl.clock },
           },
           virt_text_pos = "right_align",
           id = extm_id,

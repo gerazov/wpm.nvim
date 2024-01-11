@@ -61,7 +61,7 @@ opts = {
     },
     -- type until you complete one page
     stopwatch = {
-      hide_time = true, -- hide time while typing
+      show_time = true, -- show time while typing
     },
   },
   -- specify highlight group for each component
