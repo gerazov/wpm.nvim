@@ -6,11 +6,13 @@ This is based on [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim
 
 ## Features 
 
-WPM supports two modes:
-- _Countdown_ : type until the time is up.
-- _Stopwatch_ : type the whole text.
+- Measures WPM in two modes:
+    - _Countdown_ : type until the time is up.
+    - _Stopwatch_ : type the whole text.
 
-WPM is calculated based on the words typed in the task, taking into account mistakes and corrections made.
+- Calculates WPM based on the words typed in the task, taking into account mistakes and corrections made.
+
+- Implements WPM logging.
 
 \* [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim) also has a *Rain* game mode.
 
