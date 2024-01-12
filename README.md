@@ -36,6 +36,34 @@ This is based on [speedtyper.nvim](https://github.com/NStefan002/speedtyper.nvim
 - You can exit the run using `<Esc>` in normal mode. 
 - You can start again using `<C-Space>` in normal mode. 
 
+## Logging
+
+Logging is turned on by default via the `logging` option. 
+
+The log file is saved in the data folder (`~/.local/share/nvim` by default) and
+is named `wpm-nvim.tsv`. The log file is a tab separated file and can be opened
+in any spreadsheet program or read easily via code. The first line of the file
+is a header that describes the columns. 
+
+Basic logging (default) will log only the date and wpm. Full logging, set 
+via the `full_logging` option, will log the following columns:
+-  date: date and time of the game
+-  wpm: words per minute
+-  time: time in seconds
+-  accuracy: accuracy in percent
+-  n_words: number of words in the text
+-  n_correct: number of correctly typed words
+-  n_mistakes: number of mistakes
+-  game_mode: game mode (countdown or stopwatch)
+-  language
+-  text: text type (words, sentences or custom)
+-  custom_text_file: path to custom text file
+-  user
+-  host
+-  keyboard_model
+-  target_text
+-  typed_text
+
 ## Languages
 
 The plugin has English built in. Other languages can be added via custom `txt` files.
@@ -57,7 +85,8 @@ opts = {
   language = "en",
   text = "sentences", -- "words" | "sentences" | "custom" - automatically set to "custom" if custom_text_file is not nil
   custom_text_file = nil, -- path to custom file, overrides text
-  log = true, -- log typing speed to a file
+  loging = true, -- log typing speed to a file
+  full_logging = false, -- if false log only date and wpm
   log_path = vim.fn.stdpath("data") .. "/wpm-nvim.tsv", -- data folder is ~/.local/share/nvim
   game_modes = { -- preferred settings for different game modes
     -- type until time expires
