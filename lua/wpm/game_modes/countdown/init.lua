@@ -47,7 +47,8 @@ function M.stop(ok)
     stats.display_stats(
       opts.time,
       countdown_util.text,
-      countdown_util.lines
+      countdown_util.lines,
+      "countdown"
     )
     util.disable_modifying_buffer()
   elseif M.timer ~= nil then

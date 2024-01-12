@@ -47,7 +47,9 @@ function M.stop(ok)
   if ok then
     stats.display_stats(
       M.total_time_sec,
-      stopwatch_util.text
+      stopwatch_util.text,
+      nil,
+      "stopwatch"
     )
     util.disable_modifying_buffer()
   elseif M.timer ~= nil then

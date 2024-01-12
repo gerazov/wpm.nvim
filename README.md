@@ -52,8 +52,11 @@ opts = {
     width = 60, -- integer | float in range (0, 1)
     border = "rounded", -- "none" | "single" | "double" | "rounded" | "shadow" | "solid"
   },
-  text = "sentences", -- "words" | "sentences"
+  language = "en",
+  text = "sentences", -- "words" | "sentences" | "custom" - automatically set to "custom" if custom_text_file is not nil
   custom_text_file = nil, -- path to custom file, overrides text
+  log = true, -- log typing speed to a file
+  log_path = vim.fn.stdpath("data") .. "/wpm-nvim.tsv", -- data folder is ~/.local/share/nvim
   game_modes = { -- preferred settings for different game modes
     -- type until time expires
     countdown = {

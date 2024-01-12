@@ -5,7 +5,10 @@ local ns_id = api.nvim_get_namespaces()["wpm"]
 ---@param time_sec number
 ---@param text? string[]
 ---@param prev_lines? string[]
-function M.display_stats(time_sec, text, prev_lines)
+---@param game_mode? string
+function M.display_stats(time_sec, text, prev_lines, game_mode)
+
+  local opts = require("wpm.config").opts
   local lines = api.nvim_buf_get_lines(0, 0, -1, false)
   local n_lines = #lines
   -- clear all lines
@@ -62,6 +65,47 @@ function M.display_stats(time_sec, text, prev_lines)
   api.nvim_buf_add_highlight(0, ns_id, "DiagnosticWarn", 1, 0, #acc_text)
   api.nvim_buf_add_highlight(0, ns_id, "DiagnosticInfo", 2, 0, #time_text)
   api.nvim_buf_add_highlight(0, ns_id, "DiagnosticOk", 4, 0, #options_text)
+
+  -- save stats to a tab separated csv file
+  if opts.log then
+    -- if file doesn't exist, create it and add the header
+    local log_file
+    if vim.fn.filereadable(opts.log_path) == 0 then
+      local header = "date\tuser\thost\tkeyboard_model\tgame_mode\ttime\twpm\t" ..
+        "accuracy\tn_words\tn_correct\tn_mistakes\tlang\ttext\tcustom_text_file\t" ..
+        "target_text\ttyped_text\n"
+      log_file = io.open(opts.log_path, "w")
+      log_file:write(header)
+      log_file:close()
+    end
+
+    log_file = io.open(opts.log_path, "a")
+    -- start the log line with the date stamp, user, host, game mode
+    local log_line = os.date("%Y-%m-%d %H:%M:%S") .. "\t" ..
+      vim.loop.os_getenv("USER") .. "\t" ..
+      vim.loop.os_gethostname() .. "\t" ..
+      -- extract keyboard information via lsusb, keep from field 7 till end of line, trim trailing newline
+      vim.fn.system([[ lsusb | grep -i keyboard | cut -f 7- -d\  | tr -d '\n' ]]) .. "\t" ..
+      game_mode .. "\t"
+
+    log_line = log_line .. string.format(
+      "%.2f\t%.2f\t%.2f\t%d\t%d\t%d",
+      time_sec, wpm, accuracy, n_words, n_correct, n_mistakes
+    )
+
+    for _, opt in pairs({
+      opts.language,
+      opts.text, -- "words" | "sentences" | "custom" - automatically set to "custom" if custom_text_file is not nil
+      opts.custom_text_file or "",
+      table.concat(text, " "),
+      table.concat(words_typed, " ")
+    }) do
+      log_line = log_line .. "\t" .. opt
+    end
+    log_line = log_line .. "\n"
+    log_file:write(log_line)
+    log_file:close()
+  end
 end
 
 return M
