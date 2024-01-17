@@ -40,6 +40,7 @@ function M.start_game()
     "n",
     "<C-Space>",
     function()
+      M.end_game(false)
       M.start_game()
       vim.keymap.set("n", "i", "i", { buffer = 0, silent = true,})
     end,
